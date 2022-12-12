@@ -1,4 +1,4 @@
-# Write your MySQL query statement below
+# logs의 num 값이 연속적으로 같은값인 숫자 
 
 SELECT IF(num1=num2 and num2=num3, num1, null) ConsecutiveNums
 FROM 
