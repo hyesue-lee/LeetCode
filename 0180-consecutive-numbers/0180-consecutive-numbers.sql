@@ -1,20 +1,13 @@
-# logs의 num 값이 연속적으로 같은값인 숫자 
+/* 윈도우 함수 사용하기 */
 
-SELECT IF(num1=num2 and num2=num3, num1, null) ConsecutiveNums
-FROM 
-    ( SELECT A.num num1, B.num num2, C.num num3 
-        FROM Logs A
-        JOIN logs B
-        ON A.id = B.id + 1
-        JOIN logs C
-        ON A.id = C.id + 2
-       ) sub
- GROUP BY ConsecutiveNums
- HAVING ConsecutiveNums is not null 
+SELECT distinct num ConsecutiveNums 
+FROM(
+    SELECT 
+         num
+        ,LEAD(num) OVER( ORDER BY id) AS lag1
+        ,LEAD(num,2) OVER( ORDER BY id) AS lag2
+        FROM logs
+)sub
+WHERE sub.num = sub.lag1 AND sub.lag1 = sub.lag2
 
-# select A.num num1, B.num num2, C.num num3 
-#         from Logs A
-#         JOIN logs B
-#         ON A.id = B.id + 1
-#         JOIN logs C
-#         ON A.id = C.id + 2
+
