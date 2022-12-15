@@ -8,7 +8,7 @@ FROM(
     SELECT D.name department
         , E.name employee
         , E.salary salary 
-        , DENSE_RANK() OVER(PARTITION BY D.id ORDER BY E.salary DESC) salary_rank
+        , RANK() OVER(PARTITION BY D.id ORDER BY E.salary DESC) salary_rank
 
     FROM employee E 
         JOIN department D
