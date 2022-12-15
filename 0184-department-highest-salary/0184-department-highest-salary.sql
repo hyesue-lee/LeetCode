@@ -1,19 +1,19 @@
-/*
-가장높은 샐러리. 부서별. Department, Employee, Salary 
-테이블: Employee / Department pk: id 
-필터: 부서별, max salary 
-정렬: any order 
-*/
+/* 가장높은 급여인 직원을 찾아라. 각 부서 별로  */
 
-SELECT D.name Department
-, E.name Employee
-, E.salary Salary 
-FROM employee E
-JOIN department D
-ON E.departmentId = D.id
-WHERE (D.id, E.salary) IN 
-    ( SELECT departmentId, MAX(salary)
-        FROM employee
-        GROUP BY departmentId
-    )
 
+SELECT department
+    ,employee
+    ,high_salary salary
+FROM(
+    SELECT D.name department
+        , E.name employee
+        , E.salary salary 
+        , MAX(E.salary) OVER(PARTITION BY D.id) high_salary
+
+    FROM employee E 
+        JOIN department D
+        ON E.departmentId = D.id 
+ )sub
+ WHERE sub.salary = sub.high_salary
+ 
+ 
