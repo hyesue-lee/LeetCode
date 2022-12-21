@@ -1,16 +1,11 @@
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
-BEGIN
+BEGIN 
+  SET N = N-1; 
   RETURN 
   (
-            SELECT salary -- 존재하지않으면 어차피 null이라 별도 처리 안해줘도 됨.
-     
-            FROM 
-            (
-				SELECT DISTINCT salary
-				,DENSE_RANK() OVER(ORDER BY SALARY DESC) AS drank
-				FROM employee 
-            )sub 
-            WHERE sub.drank = N
-              
+      SELECT distinct salary
+      FROM employee
+      ORDER BY salary DESC 
+      LIMIT 1 OFFSET N          
   );
 END
